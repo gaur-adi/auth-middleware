@@ -1,5 +1,5 @@
 {
-  "name": "auth-middleware",
+  "name": "auth-middleware-utils",
   "version": "1.0.0",
   "description": "A Role based authentication middleware.",
   "main": "dist/index.js",
