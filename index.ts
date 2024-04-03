@@ -1,1 +1,1 @@
-export * from './src/middleware/auth'
+export * from './src/auth'

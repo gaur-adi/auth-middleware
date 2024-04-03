@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import * as httpContext from 'express-http-context'
-import { Role } from '../entities/Role'
-import * as jwtUtils from '../utils/jwtUtils'
+import { Role } from './Role'
+import * as jwtUtils from './utils/jwtUtils'
 import { findOneOrFail } from 'serverless-mongodb-utils'
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction, userCollection: UserCollections, userInterface: UserInterfaces): void => {
