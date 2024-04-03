@@ -3,8 +3,9 @@ import * as httpContext from 'express-http-context'
 import { Role } from './Role'
 import * as jwtUtils from './utils/jwtUtils'
 import { findOneOrFail } from 'serverless-mongodb-utils'
+import { authLoginsCollection, type IAuthLogin } from './authLogin'
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction, userCollection: UserCollections, userInterface: UserInterfaces): void => {
+const authMiddleware = (req: Request, res: Response, next: NextFunction, userCollection: string, userInterface: any): void => {
   const token = req.cookies.sessionToken
   if (token == null) {
     next()
@@ -13,7 +14,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction, userCol
   }
 }
 
-const adminAccess = (req: Request, res: Response, next: NextFunction, userCollection: UserCollections, userInterface: UserInterfaces): void => {
+const adminAccess = (req: Request, res: Response, next: NextFunction, userCollection: string, userInterface: any): void => {
   const token = req.cookies.sessionToken
   if (token == null) {
     send401(res)
@@ -32,29 +33,19 @@ const send401 = (res: Response): void => {
   })
 }
 
-export interface UserCollections {
-  userLoginsCollection: string
-  usersCollection: string
-}
-
-export interface UserInterfaces {
-  userLoginInterface: any
-  userInterface: any
-}
-
 const checkAccess = (
   token: any,
   res: Response,
   next: NextFunction,
-  collections: UserCollections,
-  interfaces: UserInterfaces,
+  userCollection: string,
+  userInterface: any,
   roles?: string[]
 ): void => {
   try {
     jwtUtils.verifyToken(token)
-    void findOneOrFail<typeof interfaces.userLoginInterface>(collections.userLoginsCollection, { sessionToken: token })
+    void findOneOrFail<IAuthLogin>(authLoginsCollection, { sessionToken: token })
       .then(userLogin => {
-        void findOneOrFail<typeof interfaces.userInterface>(collections.usersCollection, { email: userLogin.email })
+        void findOneOrFail<typeof userInterface>(userCollection, { email: userLogin.email })
           .then(user => {
             httpContext.set('userLogin', userLogin)
             if (roles === undefined) {
@@ -72,7 +63,7 @@ const checkAccess = (
   }
 }
 
-const superAdminAccess = (req: Request, res: Response, next: NextFunction, userCollection: UserCollections, userInterface: UserInterfaces): void => {
+const superAdminAccess = (req: Request, res: Response, next: NextFunction, userCollection: string, userInterface: any): void => {
   const token = req.cookies.sessionToken
   if (token == null) {
     send401(res)
@@ -81,7 +72,7 @@ const superAdminAccess = (req: Request, res: Response, next: NextFunction, userC
   }
 }
 
-const userAccess = (req: Request, res: Response, next: NextFunction, userCollection: UserCollections, userInterface: UserInterfaces): void => {
+const userAccess = (req: Request, res: Response, next: NextFunction, userCollection: string, userInterface: any): void => {
   const token = req.cookies.sessionToken
   if (token == null) {
     send401(res)
