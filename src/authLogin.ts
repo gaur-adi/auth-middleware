@@ -38,7 +38,7 @@ async function createAuthLoginCollection (): Promise<void> {
               }
             },
             user: {
-              bsonType: 'object'
+              bsonType: 'objectId'
             }
           }
         }
