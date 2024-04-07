@@ -1,10 +1,11 @@
 {
   "name": "auth-middleware-utils",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "A Role based authentication middleware.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm i && tsc"
+    "build": "npm i && tsc",
+    "publish": "npm i && tsc && npm publish"
   },
   "dependencies": {
     "express": "^4.17.1",

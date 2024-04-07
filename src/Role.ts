@@ -1,7 +1,7 @@
 import { type ObjectId } from 'mongodb'
 import { connectToDb } from 'serverless-mongodb-utils'
 
-export enum Role {
+export enum AuthRole {
   SuperAdmin = 'SUPER_ADMIN',
   Admin = 'ADMIN',
   User = 'USER'
@@ -9,7 +9,7 @@ export enum Role {
 
 export interface IRole {
   _id: ObjectId
-  name: Role
+  name: AuthRole
 }
 
 export const rolesCollection = 'roles'
@@ -29,7 +29,7 @@ async function createRoleCollection (): Promise<void> {
               bsonType: 'objectId'
             },
             name: {
-              enum: Object.values(Role),
+              enum: Object.values(AuthRole),
               bsonType: 'string'
             }
           }

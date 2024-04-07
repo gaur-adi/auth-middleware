@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import * as httpContext from 'express-http-context'
-import { Role } from './Role'
+import { AuthRole } from './Role'
 import { verifyToken } from './utils/jwtUtils'
 import { findOneOrFail } from 'serverless-mongodb-utils'
 import { authLoginsCollection, type IAuthLogin } from './authLogin'
@@ -20,7 +20,7 @@ const adminAccess = (req: Request, res: Response, next: NextFunction): void => {
   if (token == null) {
     send401(res)
   } else {
-    checkAccess(token, res, next, [Role.SuperAdmin, Role.Admin])
+    checkAccess(token, res, next, [AuthRole.SuperAdmin, AuthRole.Admin])
   }
 }
 
@@ -62,7 +62,7 @@ const superAdminAccess = (req: Request, res: Response, next: NextFunction): void
   if (token == null) {
     send401(res)
   } else {
-    checkAccess(token, res, next, [Role.SuperAdmin])
+    checkAccess(token, res, next, [AuthRole.SuperAdmin])
   }
 }
 
@@ -71,7 +71,7 @@ const userAccess = (req: Request, res: Response, next: NextFunction): void => {
   if (token == null) {
     send401(res)
   } else {
-    checkAccess(token, res, next, [Role.SuperAdmin, Role.Admin, Role.User])
+    checkAccess(token, res, next, [AuthRole.SuperAdmin, AuthRole.Admin, AuthRole.User])
   }
 }
 
