@@ -14,7 +14,7 @@ export interface IAuthUser {
 
 export const usersCollection = 'users'
 
-async function createUserCollection (): Promise<void> {
+export const createUserCollection = async (): Promise<void> => {
   try {
     const database = await connectToDb()
 
@@ -59,5 +59,3 @@ async function createUserCollection (): Promise<void> {
     console.error(`Error in creating Appraisal Card : ${String(error)}`)
   }
 }
-
-export default createUserCollection

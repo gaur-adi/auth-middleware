@@ -14,7 +14,7 @@ export interface IRole {
 
 export const rolesCollection = 'roles'
 
-async function createRoleCollection (): Promise<void> {
+export const createRoleCollection = async (): Promise<void> => {
   try {
     const database = await connectToDb()
 
@@ -41,5 +41,3 @@ async function createRoleCollection (): Promise<void> {
     console.error(`Error in creating Appraisal Card : ${String(error)}`)
   }
 }
-
-export default createRoleCollection

@@ -11,7 +11,7 @@ export interface IAuthLogin {
 
 export const authLoginsCollection = 'authLogins'
 
-async function createAuthLoginCollection (): Promise<void> {
+export const createAuthLoginCollection = async (): Promise<void> => {
   try {
     const database = await connectToDb()
 
@@ -52,5 +52,3 @@ async function createAuthLoginCollection (): Promise<void> {
     console.error(`Error in creating Appraisal Card : ${String(error)}`)
   }
 }
-
-export default createAuthLoginCollection
