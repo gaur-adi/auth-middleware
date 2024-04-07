@@ -47,12 +47,12 @@ const checkAccess = (token: any, res: Response, next: NextFunction, roles?: stri
             } else if (roles.includes(user.role.name)) {
               next()
             } else {
-              throw new Error('UNAUTHORIZED_ACCESS')
+              send401(res)
             }
           })
       }).catch(next)
   } catch (err: any) {
-    console.error(err.message ?? 'error occured during authentication')
+    console.error('error occured during authentication')
     send401(res)
   }
 }
