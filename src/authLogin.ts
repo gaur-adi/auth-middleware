@@ -20,7 +20,7 @@ export const createAuthLoginCollection = async (): Promise<void> => {
       validator: {
         $jsonSchema: {
           bsonType: 'object',
-          required: ['_id', 'email', 'password', 'sessionToken', 'user'],
+          required: ['_id', 'email', 'password', 'sessionToken', 'userId'],
           properties: {
             _id: {
               bsonType: 'objectId'
@@ -37,7 +37,7 @@ export const createAuthLoginCollection = async (): Promise<void> => {
                 bsonType: 'string'
               }
             },
-            user: {
+            userId: {
               bsonType: 'objectId'
             }
           }

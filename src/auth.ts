@@ -28,7 +28,7 @@ const send401 = (res: Response): void => {
   res.clearCookie('sessionToken')
   res.clearCookie('authenticated')
   res.status(401).send({
-    message: 'Unauthorized Access',
+    message: 'UNAUTHORIZED_ACCESS',
     success: false,
     status: 401
   })
@@ -47,7 +47,7 @@ const checkAccess = (token: any, res: Response, next: NextFunction, roles?: stri
             } else if (roles.includes(user.role.name)) {
               next()
             } else {
-              throw new Error('Unauthorized Access')
+              throw new Error('UNAUTHORIZED_ACCESS')
             }
           })
       }).catch(next)
