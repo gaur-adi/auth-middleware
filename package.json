@@ -4,8 +4,7 @@
   "description": "A Role based authentication middleware.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm i && tsc",
-    "publish": "npm i && tsc && npm publish"
+    "build": "npm i && tsc"
   },
   "dependencies": {
     "business-model": "^1.0.4",
