@@ -1,10 +1,8 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import * as httpContext from 'express-http-context'
-import { AuthRole } from './Role'
 import { verifyToken } from './utils/jwtUtils'
 import { findOneOrFail } from 'serverless-mongodb-utils'
-import { authLoginsCollection, type IAuthLogin } from './authLogin'
-import { type IAuthUser, usersCollection } from './user'
+import { authLoginsCollection, AuthRole, type IAuthLogin, type IBaseUser, usersCollection } from 'business-model'
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.cookies.sessionToken
@@ -39,7 +37,7 @@ const checkAccess = (token: any, res: Response, next: NextFunction, roles?: stri
     verifyToken(token)
     void findOneOrFail<IAuthLogin>(authLoginsCollection, { sessionToken: token })
       .then(userLogin => {
-        void findOneOrFail<IAuthUser>(usersCollection, { email: userLogin.email })
+        void findOneOrFail<IBaseUser>(usersCollection, { email: userLogin.email })
           .then(user => {
             httpContext.set('userLogin', userLogin)
             if (roles === undefined) {
