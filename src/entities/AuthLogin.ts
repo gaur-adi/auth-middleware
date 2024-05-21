@@ -1,7 +1,7 @@
 import { type ObjectId } from 'mongodb'
 import { connectToDb } from 'serverless-mongodb-utils'
 
-export interface IAuthLogin {
+export interface IBaseAuthLogin {
   _id: ObjectId
   email: string
   password: string
@@ -44,7 +44,7 @@ export const createAuthLoginCollection = async (): Promise<void> => {
         }
       }
     }
-    const collection = await database.createCollection<IAuthLogin>(authLoginsCollection, options)
+    const collection = await database.createCollection<IBaseAuthLogin>(authLoginsCollection, options)
 
     // Create unique index
     await collection.createIndex({ email: 1 }, { unique: true })

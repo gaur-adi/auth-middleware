@@ -3,7 +3,7 @@ import * as httpContext from 'express-http-context'
 import { verifyToken } from './utils/jwtUtils'
 import { findOneOrFail } from 'serverless-mongodb-utils'
 import { AuthRole } from './entities/Role'
-import { authLoginsCollection, type IAuthLogin } from './entities/AuthLogin'
+import { authLoginsCollection, type IBaseAuthLogin } from './entities/AuthLogin'
 import { type IBaseUser, usersCollection } from './entities/User'
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
@@ -37,7 +37,7 @@ const send401 = (res: Response): void => {
 const checkAccess = (token: any, res: Response, next: NextFunction, roles?: string[]): void => {
   try {
     verifyToken(token)
-    void findOneOrFail<IAuthLogin>(authLoginsCollection, { sessionToken: token })
+    void findOneOrFail<IBaseAuthLogin>(authLoginsCollection, { sessionToken: token })
       .then(userLogin => {
         void findOneOrFail<IBaseUser>(usersCollection, { email: userLogin.email })
           .then(user => {
@@ -75,7 +75,7 @@ const userAccess = (req: Request, res: Response, next: NextFunction): void => {
   }
 }
 
-const getUserLogin = (): IAuthLogin => {
+const getUserLogin = (): IBaseAuthLogin => {
   return httpContext.get('userLogin')
 }
 
