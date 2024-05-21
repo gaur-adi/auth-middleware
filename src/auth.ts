@@ -2,7 +2,9 @@ import { type NextFunction, type Request, type Response } from 'express'
 import * as httpContext from 'express-http-context'
 import { verifyToken } from './utils/jwtUtils'
 import { findOneOrFail } from 'serverless-mongodb-utils'
-import { authLoginsCollection, AuthRole, type IAuthLogin, type IBaseUser, usersCollection } from 'business-model'
+import { AuthRole } from './entities/Role'
+import { authLoginsCollection, type IAuthLogin } from './entities/AuthLogin'
+import { type IBaseUser, usersCollection } from './entities/User'
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.cookies.sessionToken
